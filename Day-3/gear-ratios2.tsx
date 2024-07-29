@@ -17,7 +17,7 @@ import * as fs from 'fs'
 
 const input = fs.readFileSync('input.txt', 'utf-8');
 const lines = input.split('\n');
-const allowedSymbols = new Set(['+', '=', '*', '-', '/', '%', '&', '|', '^', '!', '?', ':', '$', '#', '@']);
+const allowedSymbols = new Set(['*']);
 // 2D array, Array containing and Array of Strings = [] empty array
 const schematicsArray : Array<Array<string>> = [];
 let sum = 0;
@@ -62,9 +62,6 @@ schematicsArray.forEach((line) => {
                         //check duplicate
                         if( !pointStack.has(Number(fullNumber) )){
                             pointStack.add(Number(fullNumber))
-                            sum+=Number(fullNumber)
-                            console.log(fullNumber)
-                            console.log(sum)
                         }
                     }
                 }
@@ -81,6 +78,14 @@ schematicsArray.forEach((line) => {
             checkAndLog(i + 1, j + 1);
             checkAndLog(i, j - 1);
             checkAndLog(i, j + 1);
+            if(pointStack.size == 2){
+                let ratio = 1;
+                pointStack.forEach((gear) => {
+                    ratio *= gear
+                })
+                sum+=ratio
+                console.log(sum)
+            }
         }
         j++;
     })
