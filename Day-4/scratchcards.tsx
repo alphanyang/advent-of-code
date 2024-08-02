@@ -19,6 +19,7 @@ lines.forEach( (line) => {
 })
 
 scartchCardMap.forEach( (card) => {
+
     let winningNumbers = card[0].split(' ')
     let cardNumbers = card[1].split(' ')
     winningNumberCount = 0
