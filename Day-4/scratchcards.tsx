@@ -3,40 +3,64 @@ import * as fs from "fs"
 const input = fs.readFileSync("input.txt", "utf-8")
 const lines = input.split('\n')
 
-let scartchCardMap = new Map<String, Array<String>>()
+let scartchCardMap = new Map<Number, Set<Number>>()
+let winningNumbersMap = new Map<Number, Set<Number>>()
+let copiesCount = new Array<number>(lines.length).fill(1)
 
 let winningNumberCount = 0
 let totalPoints = 0
+let totalCopies = 0
 
 lines.forEach( (line) => {
+    let lineCount = 0
     let card = line.split(':')
     let cardNumbers
     card.forEach( (numbers) => {
         cardNumbers = numbers.split('|')
     })
+    
+    let key = parseInt(card[0].replace(/\D/g,''))
+    let winNums = cardNumbers[0].split(' ')
+    let nums = cardNumbers[1].split(' ')
+    let tempSet = new Set<Number>()
 
-    scartchCardMap.set(card[0].replace(/\D/g,''), cardNumbers)
+    for(let x = 0; x < winNums.length; x++){
+        let integerNum = parseInt(winNums[x])
+        if(!Number.isNaN(integerNum)) {
+            winningNumbersMap.set(key, tempSet.add(integerNum))
+        }
+    }
+
+    tempSet = new Set<Number>()
+    for(let i = 0; i < nums.length; i++){
+        let integerNum = parseInt(nums[i])
+        if(!Number.isNaN(integerNum)) {
+            scartchCardMap.set(key, tempSet.add(integerNum))
+        }
+    }
+    lineCount++;
 })
 
-scartchCardMap.forEach( (card) => {
-
-    let winningNumbers = card[0].split(' ')
-    let cardNumbers = card[1].split(' ')
+for(let lineCount = 0; lineCount < lines.length; lineCount++) {
+    console.log("Card Number: " + (lineCount + 1))
+    let winNums = winningNumbersMap.get(lineCount + 1)
+    let nums = scartchCardMap.get(lineCount + 1)
     winningNumberCount = 0
-    winningNumbers.forEach((number) => {
-        cardNumbers.forEach((cardNumber) => {
-            if(number != null && cardNumber === number && number !== "" ) {
-                console.log(cardNumber + " " + number)
-                winningNumberCount++
-            } else {
-                // Remove the number that wasnt found
+    winNums?.forEach( element => {
+        if(nums?.has(element)) {
+            winningNumberCount++
+            if((lineCount + winningNumberCount) < lines.length){
+                copiesCount[lineCount + winningNumberCount] += 1 * copiesCount[lineCount]
             }
-        })
-        
+            nums?.delete(element)
+        }
     })
-    console.log("Winning number count: " + winningNumberCount)
-    const points: number = winningNumberCount != 0 ? 2**(winningNumberCount-1) : 0;
+    const points: number = winningNumberCount != 0 ? 2**(winningNumberCount-1) : 0
+    console.log("Copies count: " + copiesCount[lineCount])
+    totalCopies += copiesCount[lineCount]
+    console.log(totalCopies)
     console.log("Points: " + points)
-    totalPoints+=points
-    console.log("Total Points: " + totalPoints)
-})
+    console.log("Total points: " + points * copiesCount[lineCount])
+    totalPoints += (points*copiesCount[lineCount])
+    console.log(totalPoints)
+}
