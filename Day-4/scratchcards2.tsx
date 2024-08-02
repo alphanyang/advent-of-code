@@ -41,7 +41,6 @@ lines.forEach( (line) => {
 })
 
 for(let lineCount = 0; lineCount < lines.length; lineCount++) {
-    console.log("Card Number: " + (lineCount + 1))
     let winNums = winningNumbersMap.get(lineCount + 1)
     let nums = scartchCardMap.get(lineCount + 1)
     winningNumberCount = 0
@@ -54,7 +53,7 @@ for(let lineCount = 0; lineCount < lines.length; lineCount++) {
             nums?.delete(element)
         }
     })
-    console.log("Copies count: " + copiesCount[lineCount])
     totalCopies += copiesCount[lineCount]
-    console.log(totalCopies)
 }
+
+console.log(totalCopies)
