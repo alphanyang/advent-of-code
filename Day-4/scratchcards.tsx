@@ -49,18 +49,11 @@ for(let lineCount = 0; lineCount < lines.length; lineCount++) {
     winNums?.forEach( element => {
         if(nums?.has(element)) {
             winningNumberCount++
-            if((lineCount + winningNumberCount) < lines.length){
-                copiesCount[lineCount + winningNumberCount] += 1 * copiesCount[lineCount]
-            }
             nums?.delete(element)
         }
     })
     const points: number = winningNumberCount != 0 ? 2**(winningNumberCount-1) : 0
-    console.log("Copies count: " + copiesCount[lineCount])
-    totalCopies += copiesCount[lineCount]
-    console.log(totalCopies)
-    console.log("Points: " + points)
-    console.log("Total points: " + points * copiesCount[lineCount])
-    totalPoints += (points*copiesCount[lineCount])
-    console.log(totalPoints)
+    totalPoints += (points)
 }
+
+console.log(totalPoints)
