@@ -5,7 +5,6 @@ const input = fs.readFileSync('input.txt', 'utf-8')
 const lines = input.split('\n')
 
 let maps = new Map<number, number[][]>()
-let seedMap = new Map<number, number>()
 /*
     Map => {50 98 02}
            {52 50 48}
@@ -19,23 +18,9 @@ let slowPointer = 0
 let fastPointer = 1
 let key = ''
 while(fastPointer < lines.length) {
-    if(lines[slowPointer].includes('seeds: ')) {
+    if(lines[slowPointer].includes('seeds:')) {
         let seeds = lines[slowPointer].split(':')
-        let temp = seeds[1].trim().split(' ').map(Number)
-        let newSeedArray = new Array<number>()
-        let count = 0
-        for(let x = 0; x < temp.length; x++) {
-            if(x % 2 == 0){
-                newSeedArray[newSeedArray.length] = temp[x]
-            } else {
-                count = temp[x]
-                for(let y = 0; y < count; y++) {
-                    newSeedArray[newSeedArray.length] = (temp[x-1]+y)
-                }
-            }
-        }
-        maps.set(lineCount, [Array.from(newSeedArray)])
-        // maps.set(lineCount, [seeds[1].trim().split(' ').map(Number)])
+        maps.set(lineCount, [seeds[1].trim().split(' ').map(Number)])
         slowPointer++
     }
 
@@ -57,28 +42,22 @@ while(fastPointer < lines.length) {
     fastPointer++
 }
 
+
 slowPointer = 0; fastPointer = 1
 let currentSoruce = maps.get(slowPointer)?.[0] ?? [];
 while(fastPointer <= lineCount) {
-    console.log(fastPointer + 1)
     let changed = new Array<number>(currentSoruce.length).fill(0)
     maps.get(fastPointer)?.forEach( row => {
         for(let i = 0; i < currentSoruce.length; i++) {
             let num = currentSoruce[i]
             if(num >= row[1] && num < (row[1]) + (row[2]) && changed[i] == 0) {
-                // console.log("changing " + currentSoruce[i] + " to " + (num + ((row[0]) - (row[1]))))
                 currentSoruce[i] = num + ((row[0]) - (row[1]))
                 changed[i]++
             }
         }
     })
-    console.log("End of row " + (fastPointer + 1))
     fastPointer++
 }
 
-let lowest = Number.MAX_VALUE
-currentSoruce.forEach( (num) => {
-    lowest = Math.min(lowest, num)
-})
-console.log(currentSoruce)
-console.log(lowest)
+currentSoruce = currentSoruce.sort((a, b) => a - b)
+console.log(currentSoruce[0])
