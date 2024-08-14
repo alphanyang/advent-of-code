@@ -46,10 +46,5 @@ blocks.forEach( block => {
     seeds = newArray
 })
 
-let min = Number.MAX_VALUE
-seeds.forEach( num => {
-    num.forEach( num2 => {
-        min = Math.min(num2, min)
-    })
-})
-console.log(min)
+seeds.sort(([a, b],[c, d]) => (a+b) - (c+d))
+console.log(seeds[0][0])

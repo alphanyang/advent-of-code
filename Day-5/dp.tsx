@@ -1,31 +1,16 @@
-/* fibbonaci dynamic programming problem
-   1. recursion
-   2. store
-   3. bottom up
-*/
-
-let fibboMap = new Map<number, number>()
-let memoArray = new Array<number>()
+let memoArray: number[] = []
 
 let count = 0
-let fibbonaci: (num: number, memo: Array<number>) => number = function (
+let fibbonaci: (num: number, memo: number[]) => number = function (
     num: number,
-    memo: Array<number>
+    memo: number[]
 ): number {
-    if(memo[num-3] != null) {
-        return memo[num-3] as number
-    } 
-    let result = 0
-    if(num == 1 || num == 2) {
-        result = 1
-    } else {
-        result = fibbonaci(num-1, memo) + fibbonaci(num-2, memo)
-        memo[num-3] = result
+    for(let i = 2; i <= num; i++){
+        memo.push((memo[i - 1] + memo[i - 2]))
         count++
     }
-    return result
+    return memo[num]
 }
-
-console.log(fibbonaci(100, memoArray))
-console.log(memoArray)
-console.log(count +  " calulations")
+memoArray.push(0)
+memoArray.push(1)
+console.log(fibbonaci(5, memoArray))

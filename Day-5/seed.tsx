@@ -1,6 +1,5 @@
 import * as fs from 'fs'
 
-
 const [input, ...blocks] = fs.readFileSync('input.txt', 'utf-8').split('\n\n')
 
 let seeds: number[] = input.split(':')[1].trim().split(' ').map(Number) as number[]
@@ -32,4 +31,3 @@ blocks.forEach(block => {
 
 seeds.sort((a,b) => a-b)
 console.log(seeds[0])
-
