@@ -92,7 +92,6 @@ plays.sort((a, b) => {
 let total = 0
 for(let i = 0; i < plays.length; i++) {
     let bid = plays[i][1]
-    console.log(bid)
     total+= bid*(i+1)
 }
 
