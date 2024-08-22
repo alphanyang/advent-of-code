@@ -4,6 +4,17 @@ import * as fs from 'fs';
 const input = fs.readFileSync('input.txt', 'utf-8');
 const lines = input.split('\n');
 
+const wordMap = {
+    'one': '1',
+    'two': '2',
+    'three': '3',
+    'four': '4',
+    'five': '5',
+    'six': '6',
+    'seven': '7',
+    'eight': '8',
+    'nine': '9',
+};
 
 var sum = 0;
 // Parse the input
@@ -11,17 +22,6 @@ lines.forEach((line) => {
     // First come first serve, so we can't just replace all numbers with digits
     // We have to replace them in order
     // Define the words and their replacements
-    const wordMap = {
-        'one': '1',
-        'two': '2',
-        'three': '3',
-        'four': '4',
-        'five': '5',
-        'six': '6',
-        'seven': '7',
-        'eight': '8',
-        'nine': '9',
-    };
 
     // Function to check if the word at the current slowIndex matches any key in the wordMap
     function checkWord(line: string, slowIndex: number, word: string | any[]) {
